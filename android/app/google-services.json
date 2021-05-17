@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "736427450616",
+    "firebase_url": "https://masters-341f2-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "masters-341f2",
+    "storage_bucket": "masters-341f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:736427450616:android:6bdab3beea3ec3b0ad9b0d",
+        "android_client_info": {
+          "package_name": "com.casvanluijtelaar.leading"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "736427450616-37hcg93gdj1v6am8baj4vejofdt5tkfo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgHf8iNRStBoqjONHhR1p59b17Go2VTXY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "736427450616-37hcg93gdj1v6am8baj4vejofdt5tkfo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "736427450616-sootfuv8vk7v2rhj1llh8fsq3mdvkk29.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.casvanluijtelaar.masters"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
