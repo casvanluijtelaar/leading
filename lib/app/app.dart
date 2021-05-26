@@ -7,10 +7,13 @@
 
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:leading/app/app_locator.dart';
 import 'package:leading/app/app_router.dart';
-import 'package:leading/l10n/l10n.dart';
+import 'package:leading/generated/l10n.dart';
+
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'app_theme.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -23,23 +26,25 @@ class App extends StatelessWidget {
       ),
     );
 
-    return MaterialApp.router(
-      key: locator<AppRouter>().navigatorKey,
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        accentColor: const Color(0xFF13B9FF),
-        appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
-      ),
-      localizationsDelegates: [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      routeInformationParser: BeamerRouteInformationParser(),
-      backButtonDispatcher: BeamerBackButtonDispatcher(
-        delegate: routerDelegate,
-      ),
+    return BeamerProvider(
       routerDelegate: routerDelegate,
+      child: MaterialApp.router(
+        localizationsDelegates: [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+        key: locator<AppRouter>().navigatorKey,
+        debugShowCheckedModeBanner: false,
+        theme: locator<AppTheme>().getTheme(context),
+        routeInformationParser: BeamerRouteInformationParser(),
+        backButtonDispatcher: BeamerBackButtonDispatcher(
+          delegate: routerDelegate,
+        ),
+        routerDelegate: routerDelegate,
+      ),
     );
   }
 }

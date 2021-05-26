@@ -6,12 +6,14 @@ import 'package:leading/features/onboarding/bloc/onboarding_bloc.dart';
 import '../onboarding.dart';
 
 class OnboardingViewColor extends StatelessWidget {
-  const OnboardingViewColor(this.hero, {Key? key}) : super(key: key);
-
-  final String hero;
+  const OnboardingViewColor({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<OnboardingBloc>();
+    final hero = bloc.hero;
+    final color = (bloc.state as OnboardingColor).color;
+
     return Column(
       children: [
         const Text('text kleur uitleg'),
@@ -20,12 +22,13 @@ class OnboardingViewColor extends StatelessWidget {
           child: Container(
             width: 400,
             height: 400,
-            color: BlocProvider.of<OnboardingBloc>(context).color,
+            color: color,
           ),
         ),
         MaterialButton(
-          onPressed: () => BlocProvider.of<OnboardingBloc>(context)
-              .add(OnboardingEvent.colorCompleted),
+          onPressed: () => BlocProvider.of<OnboardingBloc>(context).add(
+            OnboardingColorComplete(),
+          ),
           child: const Text('veerder'),
         ),
       ],

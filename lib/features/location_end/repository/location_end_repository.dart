@@ -8,11 +8,12 @@ class LocationEndRepository {
 
   final Database _database;
 
-  Future<List<Location>> getLocations() async {
-    try {
-      return _database.getLocations();
-    } on DatabaseException {
-      throw NoLocationsException();
-    }
+  Future<List<Location>> getLocations(Location currentLocation) async {
+    final locations = await _database.getLocations();
+    locations
+      ..removeWhere((e) => e == currentLocation)
+      ..removeWhere((e) => e.name.contains('hub'));
+
+    return locations;
   }
 }

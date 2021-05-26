@@ -1,30 +1,38 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/widgets.dart';
 
-import 'package:leading/features/landing/landing.dart';
-import 'package:leading/features/location_end/location_end.dart';
-import 'package:leading/features/location_start/location_start.dart';
 import 'package:leading/features/onboarding/onboarding.dart';
+import 'package:leading/features/setup/view/setup_page.dart';
+import 'package:leading/features/tracker/tracker.dart';
 
 class AppRouter {
-  AppRouter();
 
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   BuildContext get _context => navigatorKey.currentContext!;
 
-  static const String home = '/';
-  static const String start = '/start';
-  static const String end = '/end';
+  static const String setup = '/';
   static const String onboarding = '/onboarding';
+  static const String tracker = '/tracker';
 
   final Map<String, Widget Function(BuildContext)> routes = {
-    home: (_) => const LandingPage(),
-    start: (_) => const LocationStartPage(),
-    end: (_) => const LocationEndPage(),
+    setup: (_) => const SetupPage(),
     onboarding: (_) => const OnboardingPage(),
+    tracker: (_) => const TrackerPage(),
   };
 
   void navigateToRoute(String route) => Beamer.of(_context).beamToNamed(route);
+
+  void navigateToRouteAdvanced(
+    String route, {
+    Map<String, dynamic> data = const {},
+    String popToNamed = onboarding,
+  }) =>
+      Beamer.of(_context).beamToNamed(
+        route,
+        beamBackOnPop: false,
+        data: data,
+        popToNamed: popToNamed,
+      );
 
   void navigateBack() => _context.beamBack();
 }

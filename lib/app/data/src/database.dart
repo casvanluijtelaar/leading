@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:leading/app/data/models/hub.dart';
 
 import '../models/location.dart';
 import '../models/user.dart';
@@ -15,39 +16,35 @@ class Database {
   Future<List<Location>> getLocations() async {
     try {
       final snapshot = await _db.reference().child(_LOCATIONS).once();
-      if (snapshot.value == null || snapshot.value is! List<Map>)
-        throw DatabaseException();
 
-      final formatted = List<Map<String, dynamic>>.from(snapshot.value);
+      if (snapshot.value == null) return [];
+
+      final formatted = (snapshot.value as Map).values;
 
       return formatted.map((d) {
-        return Location(id: d['id'], name: d['name']);
+        // ignore: avoid_dynamic_calls
+        return Location(mac: d['mac'], name: d['name']);
       }).toList();
-    } catch (_) {
-      throw DatabaseException();
+    } catch (e) {
+      return [];
     }
   }
 
-  Future<Location> getLocationFromId(String id) async {
-    try {
-      final snapshot = await _db.reference().child(_LOCATIONS).child(id).once();
-      final data = snapshot.value;
+  Future<Location?> getLocationFromMac(String mac) async {
+    final snapshot = await _db.reference().child(_LOCATIONS).child(mac).once();
+    final data = snapshot.value;
 
-      if (snapshot.value == null || snapshot.value is! Map)
-        throw DatabaseException();
+    if (snapshot.value == null || snapshot.value is! Map) return null;
 
-      final formatted = Map<String, dynamic>.from(data);
-      return Location(id: formatted['id'], name: formatted['name']);
-    } catch (_) {
-      throw DatabaseException();
-    }
+    final formatted = Map<String, dynamic>.from(data);
+    return Location(mac: formatted['mac'], name: formatted['name']);
   }
 
   Future<List<User>> getUsers() async {
     final snapshot = await _db.reference().child(_USERS).once();
 
-    if (snapshot.value == null || snapshot.value is! Map)
-      throw DatabaseException();
+    if (snapshot.value == null) return [];
+    if (snapshot.value is! List) throw DatabaseException();
 
     final formatted = List<Map<String, dynamic>>.from(snapshot.value);
     return formatted.map((d) {
@@ -63,7 +60,7 @@ class Database {
         .set(user.toMap());
   }
 
-  Future<void> removeUser(Map<String, dynamic> user) {
-    return _db.reference().child(_USERS).child(user['id']).remove();
+  Future<void> removeUser(User user) {
+    return _db.reference().child(_USERS).child(user.id!).remove();
   }
 }

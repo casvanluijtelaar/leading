@@ -24,7 +24,7 @@ class LocationEndBloc extends Bloc<LocationEndEvent, LocationEndState> {
   Stream<LocationEndState> mapEventToState(LocationEndEvent event) async* {
     try {
       if (event is LocationEndStarted) {
-        final locations = await _repository.getLocations();
+        final locations = await _repository.getLocations(_user.startLocation!);
         yield locations.isEmpty
             ? LocationEndError(NoLocationsException())
             : LocationEndComplete(locations);
@@ -33,13 +33,18 @@ class LocationEndBloc extends Bloc<LocationEndEvent, LocationEndState> {
 
       if (event is LocationEndCompleted) {
         final user = _user.copyWith(endLocation: event.location);
-        locator.resetLazySingleton(instance: user);
+        locator
+          ..unregister<User>()
+          ..registerLazySingleton(() => user);
+
         _router.navigateToRoute(AppRouter.onboarding);
         return;
       }
     } on NoLocationsException {
       yield LocationEndError(NoLocationsException());
-    } catch (e) {
+    } catch (e, s) {
+      print(e);
+      print(s);
       yield LocationEndError(e as Exception);
     }
   }

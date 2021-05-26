@@ -1,14 +1,17 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Route;
 import 'package:leading/app/data/models/location.dart';
 
+import 'hub.dart';
+
 class User extends Equatable {
-  User({this.startLocation, this.endLocation, this.id, this.color});
+  User({this.startLocation, this.endLocation, this.id, this.color, this.hubs});
 
   final Location? startLocation;
   final Location? endLocation;
   final String? id;
   final Color? color;
+  final List<Hub>? hubs;
 
   @override
   List<Object?> get props => [startLocation, endLocation, id, color];
@@ -18,9 +21,8 @@ class User extends Equatable {
 
   Map<String, dynamic> toMap() => {
         'id': id,
-        'color': color?.value,
-        'start': startLocation?.id,
-        'end': endLocation?.id,
+        'color': [color?.red, color?.green, color?.blue],
+        'hubs': hubs?.map((e) => e.toMap()).toList(),
       };
 
   User copyWith({
@@ -28,12 +30,14 @@ class User extends Equatable {
     Location? endLocation,
     String? id,
     Color? color,
+    List<Hub>? hubs,
   }) {
     return User(
       startLocation: startLocation ?? this.startLocation,
       endLocation: endLocation ?? this.endLocation,
       id: id ?? this.id,
       color: color ?? this.color,
+      hubs: hubs ?? this.hubs,
     );
   }
 }

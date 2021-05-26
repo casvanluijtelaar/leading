@@ -3,16 +3,15 @@ import 'package:equatable/equatable.dart';
 class Location extends Equatable {
   const Location({
     required this.name,
-    required this.id,
-    this.distance,
+    required this.mac,
   });
 
   final String name;
-  final String id;
-  final double? distance;
+  final String mac;
+
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [mac, name];
 
   @override
   bool get stringify => true;

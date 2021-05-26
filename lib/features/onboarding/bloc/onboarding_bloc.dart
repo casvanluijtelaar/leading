@@ -1,58 +1,47 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:leading/app/app_locator.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:leading/app/app_router.dart';
 import 'package:leading/app/data/models/user.dart';
-import 'package:leading/features/onboarding/repository/onboarding_repository.dart';
 
-enum OnboardingEvent {
-  introCompleted,
-  colorCompleted,
-  animationCompleted,
-  summeryCompleted,
-}
-
-enum OnboardingState {
-  intro,
-  color,
-  animation,
-  summery,
-}
+part 'onboarding_event.dart';
+part 'onboarding_state.dart';
 
 class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
-  OnboardingBloc(this._repository, this._router, this._user)
-      : super(OnboardingState.intro);
+  OnboardingBloc(this._router) : super(OnboardingLoading());
 
-  final OnboardingRepository _repository;
   final AppRouter _router;
-  final User _user;
+  final String hero = 'onboarding';
 
-  Color? get color => _user.color;
+  late User user;
 
   @override
   Stream<OnboardingState> mapEventToState(OnboardingEvent event) async* {
-    if (event == OnboardingEvent.introCompleted) {
-      final color = await _repository.getUniqueColor();
-      final user = _user.copyWith(color: color);
-      locator.resetLazySingleton(instance: user);
-      yield OnboardingState.color;
+    if (event is OnboardingInitial) {
+      user = event.user;
+      yield OnboardingColor(user.color!);
     }
 
-    if (event == OnboardingEvent.colorCompleted) {
-      final id = await _repository.getId();
-      final user = _user.copyWith(id: id);
-      locator.resetLazySingleton(instance: user);
-      yield OnboardingState.animation;
+    if (event is OnboardingColorComplete) {
+      yield OnboardingAnimation(user.color!);
     }
 
-    if (event == OnboardingEvent.animationCompleted) {
-      yield OnboardingState.summery;
+    if (event is OnboardingAnimationComplete) {
+      yield OnboardingSummery(
+        user.color!,
+        user.startLocation!.name,
+        user.endLocation!.name,
+      );
     }
 
-    if (event == OnboardingEvent.summeryCompleted) {
-      _router.navigateToRoute(AppRouter.onboarding);
+    if (state is OnboardingComplete) {
+      yield OnboardingLoading();
+      _router.navigateToRouteAdvanced(
+        AppRouter.tracker,
+        popToNamed: AppRouter.setup,
+      );
     }
   }
 }

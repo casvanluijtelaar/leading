@@ -1,52 +1,44 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_beacon/flutter_beacon.dart';
 
-class BluetoothExeption implements Exception {
-  const BluetoothExeption(this.exception, this.trace);
+import '../contracts/bluetooth_contract.dart';
 
-  final Exception exception;
-  final StackTrace trace;
-}
+class BluetoothException implements Exception {}
 
-/// wrapper class that handles all the interactions with the flutter_beacon
-/// package
-class Bluetooth {
+class Bluetooth implements BluetoothContract {
 
-  /// the list of BLE regions we should check for beacons in
   final List<Region> _regions = [
     Region(
-      identifier: 'identifier',
-      proximityUUID: '',
+      identifier: 'IBeacon',
+      proximityUUID: 'fda50693-a4e2-4fb1-afcf-c6eb07647825',
     )
   ];
 
-  /// attemps to initialize the bluetoothbeacon library and check permissions
-  /// if not a [BluetoothExeption] will be thrown
-  Future<void> initialize() {
+  @override
+  Future<bool> initialize() async {
     try {
       return flutterBeacon.initializeAndCheckScanning;
-    } on PlatformException catch (e, s) {
-      throw BluetoothExeption(e, s);
+    } on PlatformException {
+      throw BluetoothException();
     }
   }
 
-  /// returns the first found beacons, can throw [BluetoothExeption]
+  @override
   Future<List<Beacon>> getBeaconsAsync() async {
     try {
-      final result = await flutterBeacon.ranging(_regions).first;
-      return result.beacons;
-    } catch (e, s) {
-      throw BluetoothExeption(e as Exception, s);
+      return (await flutterBeacon.ranging(_regions).first).beacons;
+    } catch (e) {
+      throw BluetoothException();
     }
   }
 
-  /// returns a stream of bluetooth beacons that fires every time a new beacon
-  /// has been detected. can throw [BluetoothExeption]
+  @override
   Stream<List<Beacon>> getBeaconsStream() {
     try {
-      return flutterBeacon.ranging(_regions).map((e) => e.beacons);
-    } catch (e, s) {
-      throw BluetoothExeption(e as Exception, s);
+      return flutterBeacon.ranging(_regions).map((event) => event.beacons);
+    } catch (e) {
+      throw BluetoothException();
     }
   }
+  
 }

@@ -6,21 +6,26 @@ import 'package:leading/features/onboarding/bloc/onboarding_bloc.dart';
 import '../onboarding.dart';
 
 class OnboardingViewAnimation extends StatelessWidget {
-  const OnboardingViewAnimation(this.hero, {Key? key}) : super(key: key);
-
-  final String hero;
+  const OnboardingViewAnimation({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<OnboardingBloc>();
+    final hero = bloc.hero;
+    final color = (bloc.state as OnboardingAnimation).color;
+
     return Column(
       children: [
         Crab(
           tag: hero,
-          child: MaterialButton(
-            onPressed: () => BlocProvider.of<OnboardingBloc>(context).add(
-              OnboardingEvent.animationCompleted,
+          child: Container(
+            color: color,
+            child: MaterialButton(
+              onPressed: () => BlocProvider.of<OnboardingBloc>(context).add(
+                OnboardingAnimationComplete(),
+              ),
+              child: const Text('dooorororr'),
             ),
-            child: const Text('dooorororr'),
           ),
         ),
       ],

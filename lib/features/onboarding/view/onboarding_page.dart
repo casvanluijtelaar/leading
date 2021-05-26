@@ -1,12 +1,13 @@
+import 'package:beamer/beamer.dart';
 import 'package:coast/coast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:leading/app/app_locator.dart';
+import 'package:leading/app/widgets/loading.dart';
 
 import '../bloc/onboarding_bloc.dart';
 import 'onboarding_view_animation.dart';
 import 'onboarding_view_color.dart';
-import 'onboarding_view_intro.dart';
 import 'onboarding_view_summery.dart';
 
 class OnboardingPage extends StatelessWidget {
@@ -14,9 +15,10 @@ class OnboardingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = Beamer.of(context).state.data['user'];
     return Scaffold(
       body: BlocProvider(
-        create: (_) => locator<OnboardingBloc>(),
+        create: (_) => locator<OnboardingBloc>()..add(OnboardingInitial(user)),
         child: OnboardingView(),
       ),
     );
@@ -26,14 +28,12 @@ class OnboardingPage extends StatelessWidget {
 class OnboardingView extends StatelessWidget {
   OnboardingView({Key? key}) : super(key: key);
 
-  static const String hero = 'onboarding';
 
   final CoastController controller = CoastController();
 
   void toPage(int page) => controller.animateTo(
         beach: page,
         duration: const Duration(milliseconds: 400),
-        curve: Curves.easeInOut,
       );
 
   @override
@@ -41,31 +41,31 @@ class OnboardingView extends StatelessWidget {
       BlocListener<OnboardingBloc, OnboardingState>(
         bloc: context.read<OnboardingBloc>(),
         listener: (context, state) {
-          switch (state) {
-            case OnboardingState.intro:
-              return toPage(0);
-            case OnboardingState.color:
-              return toPage(1);
-            case OnboardingState.animation:
-              return toPage(2);
-            case OnboardingState.summery:
-              return toPage(3);
-          }
+          if (state is OnboardingColor) return toPage(0);
+          if (state is OnboardingAnimation) return toPage(1);
+          if (state is OnboardingSummery) return toPage(2);
         },
         child: BlocBuilder<OnboardingBloc, OnboardingState>(
           bloc: context.read<OnboardingBloc>(),
-          builder: (context, state) => Coast(
-            controller: controller,
-            allowImplicitScrolling: false,
-            physics: const NeverScrollableScrollPhysics(),
-            beaches: [
-              Beach(builder: (context) => const OnboardingViewIntro(hero)),
-              Beach(builder: (context) => const OnboardingViewColor(hero)),
-              Beach(builder: (context) => const OnboardingViewAnimation(hero)),
-              Beach(builder: (context) => const OnboardingViewSummery(hero)),
-            ],
-            observers: [CrabController()],
-          ),
+          builder: (context, state) => state is OnboardingLoading
+              ? const Loading()
+              : Coast(
+                  controller: controller,
+                  allowImplicitScrolling: false,
+                  physics: const NeverScrollableScrollPhysics(),
+                  beaches: [
+                    Beach(builder: (context) {
+                      return const OnboardingViewColor();
+                    }),
+                    Beach(builder: (context) {
+                      return const OnboardingViewAnimation();
+                    }),
+                    Beach(builder: (context) {
+                      return const OnboardingViewSummery();
+                    }),
+                  ],
+                  observers: [CrabController()],
+                ),
         ),
       );
 }

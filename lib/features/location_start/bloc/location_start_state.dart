@@ -22,13 +22,3 @@ class LocationStartFound extends LocationStartState {
   @override
   List<Object> get props => [location];
 }
-
-/// something went wrong during fetching of the location
-class LocationStartError extends LocationStartState {
-  const LocationStartError(this.exception);
-
-  final Exception exception;
-
-  @override
-  List<Object> get props => [exception];
-}
