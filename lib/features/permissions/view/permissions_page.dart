@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:leading/app/app_locator.dart';
-import 'package:leading/app/widgets/loading.dart';
-import 'package:leading/features/permissions/bloc/permissions_bloc.dart';
+import 'package:leading/app/utils/consts.dart';
+import 'package:leading/app/widgets/button.dart';
+import 'package:leading/app/widgets/card.dart';
 import 'package:leading/features/setup/bloc/setup_bloc.dart';
+
+import '../bloc/permissions_bloc.dart';
 
 class PermissionsPage extends StatelessWidget {
   const PermissionsPage({Key? key}) : super(key: key);
@@ -22,53 +26,56 @@ class PermissionsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<PermissionsBloc, PermissionsState>(
-        builder: (context, state) {
-          if (state == PermissionsState.declined)
-            return const PermissionsDeclinedView();
-          if (state == PermissionsState.accepted)
-            return const PermissionsAcceptedView();
-          return const Loading();
-        },
-      ),
-    );
-  }
-}
-
-class PermissionsDeclinedView extends StatelessWidget {
-  const PermissionsDeclinedView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Text('permissions are required'),
-        MaterialButton(
-          onPressed: () => context.read<PermissionsBloc>().add(
-                PermissionsEvent.started,
-              ),
-          child: const Text('retry'),
-        ),
-      ],
-    );
-  }
-}
-
-class PermissionsAcceptedView extends StatelessWidget {
-  const PermissionsAcceptedView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Text('succes'),
-        MaterialButton(
-          onPressed: () => BlocProvider.of<SetupBloc>(context).add(
-            SetupPermissionCompleted(),
+      body: Column(
+        children: [
+          const Flexible(
+            flex: 3,
+            child: Center(child: FlutterLogo(size: 50)),
           ),
-          child: const Text('continue'),
-        ),
-      ],
+          Flexible(
+            flex: 2,
+            child: BackgroundCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    'Permissions',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  Text(
+                    '''Leading requires Bluetooth and Location permissions. Make sure both are enabled to continue ''',
+                    style: Theme.of(context).textTheme.bodyText1,
+                    textAlign: TextAlign.center,
+                  ),
+                  BlocBuilder<PermissionsBloc, PermissionsState>(
+                    builder: (context, state) {
+                      if (state == PermissionsState.declined)
+                        return Button(
+                          type: ButtonType.error,
+                          onPressed: () => context
+                              .read<PermissionsBloc>()
+                              .add(PermissionsEvent.started),
+                        );
+                      if (state == PermissionsState.accepted)
+                        return Button(
+                          type: ButtonType.succes,
+                          onPressed: () => context
+                              .read<SetupBloc>()
+                              .add(SetupPermissionCompleted()),
+                        );
+                      return Button(
+                        type: ButtonType.loading,
+                        onPressed: () {},
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

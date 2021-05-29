@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:leading/app/app_locator.dart';
 import 'package:leading/app/data/models/location.dart';
+import 'package:leading/app/widgets/button.dart';
+import 'package:leading/app/widgets/card.dart';
 import 'package:leading/features/location_end/bloc/location_end_bloc.dart';
-import 'package:leading/features/location_end/repository/location_end_repository.dart';
+import 'package:leading/features/location_start/bloc/location_start_bloc.dart';
+import 'package:leading/features/setup/bloc/setup_bloc.dart';
 
 class LocationEndPage extends StatelessWidget {
   const LocationEndPage({Key? key}) : super(key: key);
@@ -12,7 +15,8 @@ class LocationEndPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (_) => locator<LocationEndBloc>()..add(LocationEndStarted()),
+        create: (_) => locator<LocationEndBloc>()
+          ..add(LocationEndInitial(context.read<SetupBloc>().user)),
         child: const LocationEndView(),
       ),
     );
@@ -23,66 +27,83 @@ class LocationEndView extends StatelessWidget {
   const LocationEndView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<LocationEndBloc, LocationEndState>(
-        bloc: context.read<LocationEndBloc>(),
-        builder: (context, state) {
-          if (state is LocationEndComplete)
-            return LocationsView(state.locations);
-          if (state is LocationEndError) return ErrorView(state.exception);
-          return const LoadingView();
-        },
+  Widget build(BuildContext context) => Scaffold(
+        body: Column(
+          children: [
+            const Flexible(
+              flex: 2,
+              child: Center(child: FlutterLogo(size: 50)),
+            ),
+            Flexible(
+              flex: 3,
+              child: BackgroundCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      'Destination',
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    BlocBuilder<LocationEndBloc, LocationEndState>(
+                      bloc: context.read<LocationEndBloc>(),
+                      builder: (context, state) {
+                        if (state is LocationEndNotFound)
+                          return Text(
+                            // ignore: lines_longer_than_80_chars
+                            'We couldn’t find any suitable destinations, check your internet connectivity.',
+                            style: Theme.of(context).textTheme.bodyText1,
+                            textAlign: TextAlign.center,
+                          );
+
+                        return Text(
+                          // ignore: lines_longer_than_80_chars
+                          'Where is It you\'d like to go?',
+                          style: Theme.of(context).textTheme.bodyText1,
+                          textAlign: TextAlign.center,
+                        );
+                      },
+                    ),
+                    BlocBuilder<LocationEndBloc, LocationEndState>(
+                      bloc: context.read<LocationEndBloc>(),
+                      builder: (context, state) {
+                        if (state is LocationEndFound)
+                          return Expanded(
+                            child: ListView.builder(
+                              itemCount: state.locations.length,
+                              itemBuilder: (context, index) => ListTile(
+                                title: Text(state.locations[index].name),
+                                leading: Icon(
+                                  Icons.location_on,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                onTap: () => context
+                                  .read<SetupBloc>()
+                                  .add(SetupLocationEndCompleted(
+                                    state.locations[index],
+                                  )),
+                              ),
+                            ),
+                          );
+                        if (state is LocationEndNotFound)
+                          return Button(
+                            type: ButtonType.error,
+                            onPressed: () => context
+                                .read<LocationEndBloc>()
+                                .add(LocationEndStarted()),
+                          );
+
+                        return Button(
+                          type: ButtonType.loading,
+                          onPressed: () {},
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       );
-}
-
-class LoadingView extends StatelessWidget {
-  const LoadingView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
-  }
-}
-
-class ErrorView extends StatelessWidget {
-  const ErrorView(this.exception, {Key? key}) : super(key: key);
-
-  final Exception exception;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(exception is NoLocationsException
-            ? 'No locations'
-            : 'database error'),
-        MaterialButton(
-          onPressed: () => BlocProvider.of<LocationEndBloc>(context).add(
-            LocationEndStarted(),
-          ),
-          child: const Text('retry'),
-        ),
-      ],
-    );
-  }
-}
-
-class LocationsView extends StatelessWidget {
-  const LocationsView(this.locations, {Key? key}) : super(key: key);
-
-  final List<Location> locations;
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: locations.length,
-      itemBuilder: (context, index) => ListTile(
-        onTap: () => BlocProvider.of<LocationEndBloc>(context).add(
-          LocationEndCompleted(locations[index]),
-        ),
-        title: Text(locations[index].name),
-        leading: const Icon(Icons.location_city),
-      ),
-    );
-  }
 }

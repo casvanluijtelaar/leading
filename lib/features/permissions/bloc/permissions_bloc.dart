@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:leading/app/utils/consts.dart';
 import 'package:leading/features/permissions/repository/permissions_repository.dart';
 
 enum PermissionsEvent { started }
@@ -20,9 +21,8 @@ class PermissionsBloc extends Bloc<PermissionsEvent, PermissionsState> {
   Stream<PermissionsState> mapEventToState(PermissionsEvent event) async* {
     if (event == PermissionsEvent.started) {
       yield PermissionsState.loading;
-      await _repository.getPermissions();
-
-      final hasPermissions = await _repository.hasPermissions();
+      await Future.delayed(Kduration.short);
+      final hasPermissions = await _repository.getPermissions();
 
       yield hasPermissions
           ? PermissionsState.accepted

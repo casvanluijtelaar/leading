@@ -9,17 +9,10 @@ abstract class LocationEndState extends Equatable {
 
 class LocationEndLoading extends LocationEndState {}
 
-class LocationEndError extends LocationEndState {
-  const LocationEndError(this.exception);
+class LocationEndNotFound extends LocationEndState {}
 
-  final Exception exception;
-
-  @override
-  List<Object> get props => [exception];
-}
-
-class LocationEndComplete extends LocationEndState {
-  const LocationEndComplete(this.locations);
+class LocationEndFound extends LocationEndState {
+  const LocationEndFound(this.locations);
 
   final List<Location> locations;
 

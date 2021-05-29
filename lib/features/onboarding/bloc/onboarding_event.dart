@@ -19,12 +19,19 @@ class OnboardingInitial extends OnboardingEvent {
 
   final User user;
 
-   @override
+  @override
   List<Object?> get props => [user];
 }
 
-class OnboardingColorComplete extends OnboardingEvent {}
+class OnboardingBack extends OnboardingEvent {}
 
-class OnboardingAnimationComplete extends OnboardingEvent {}
+class OnboardingForward extends OnboardingEvent {}
 
-class OnboardingComplete extends OnboardingEvent {}
+class OnboardingSelected extends OnboardingEvent {
+  const OnboardingSelected(this.index);
+
+  final int index;
+
+  @override
+  List<Object?> get props => [index];
+}

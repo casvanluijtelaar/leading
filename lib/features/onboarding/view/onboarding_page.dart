@@ -1,14 +1,13 @@
 import 'package:beamer/beamer.dart';
-import 'package:coast/coast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:leading/app/app_locator.dart';
-import 'package:leading/app/widgets/loading.dart';
+import 'package:leading/features/onboarding/view/onboarding_animation_view.dart';
+import 'package:leading/features/onboarding/view/onboarding_color_view.dart';
+import 'package:leading/features/onboarding/view/onboarding_summery_view.dart.dart';
 
 import '../bloc/onboarding_bloc.dart';
-import 'onboarding_view_animation.dart';
-import 'onboarding_view_color.dart';
-import 'onboarding_view_summery.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({Key? key}) : super(key: key);
@@ -28,44 +27,71 @@ class OnboardingPage extends StatelessWidget {
 class OnboardingView extends StatelessWidget {
   OnboardingView({Key? key}) : super(key: key);
 
-
-  final CoastController controller = CoastController();
-
-  void toPage(int page) => controller.animateTo(
-        beach: page,
-        duration: const Duration(milliseconds: 400),
-      );
-
   @override
-  Widget build(BuildContext context) =>
-      BlocListener<OnboardingBloc, OnboardingState>(
-        bloc: context.read<OnboardingBloc>(),
-        listener: (context, state) {
-          if (state is OnboardingColor) return toPage(0);
-          if (state is OnboardingAnimation) return toPage(1);
-          if (state is OnboardingSummery) return toPage(2);
-        },
-        child: BlocBuilder<OnboardingBloc, OnboardingState>(
-          bloc: context.read<OnboardingBloc>(),
-          builder: (context, state) => state is OnboardingLoading
-              ? const Loading()
-              : Coast(
-                  controller: controller,
-                  allowImplicitScrolling: false,
-                  physics: const NeverScrollableScrollPhysics(),
-                  beaches: [
-                    Beach(builder: (context) {
-                      return const OnboardingViewColor();
-                    }),
-                    Beach(builder: (context) {
-                      return const OnboardingViewAnimation();
-                    }),
-                    Beach(builder: (context) {
-                      return const OnboardingViewSummery();
-                    }),
-                  ],
-                  observers: [CrabController()],
+  Widget build(BuildContext context) => Scaffold(
+        body: BlocBuilder<OnboardingBloc, OnboardingState>(
+          builder: (context, state) {
+            if (state is OnboardingLoading) return const SizedBox.shrink();
+            return PageView(
+              controller: context.read<OnboardingBloc>().controller,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                const OnboardingColorView(),
+                const OnboardingAnimationView(),
+                const OnboardingSummeryView(),
+              ],
+            );
+          },
+        ),
+        bottomNavigationBar: SafeArea(
+          child: Container(
+            width: double.infinity,
+            height: 56,
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                MaterialButton(
+                  onPressed: () =>
+                      context.read<OnboardingBloc>().add(OnboardingBack()),
+                  child: BlocBuilder<OnboardingBloc, OnboardingState>(
+                    builder: (context, state) => Text(
+                      state is OnboardingColor ? 'Cancel' : 'Back',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                  ),
                 ),
+                SmoothPageIndicator(
+                  controller: context.read<OnboardingBloc>().controller,
+                  count: 3,
+                  effect: WormEffect(
+                    activeDotColor:
+                        // ignore: avoid_dynamic_calls
+                        Beamer.of(context).state.data['user'].color!,
+                    dotColor: Theme.of(context).shadowColor,
+                    dotHeight: 10,
+                    dotWidth: 10,
+                  ),
+                  onDotClicked: (index) => context
+                      .read<OnboardingBloc>()
+                      .add(OnboardingSelected(index)),
+                ),
+                MaterialButton(
+                  onPressed: () => context.read<OnboardingBloc>().add(
+                        OnboardingForward(),
+                      ),
+                  child: BlocBuilder<OnboardingBloc, OnboardingState>(
+                    builder: (context, state) => Text(
+                      state is OnboardingSummery ? 'Start' : 'Next',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       );
 }

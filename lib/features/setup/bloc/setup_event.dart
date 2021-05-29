@@ -30,11 +30,12 @@ class SetupLocationEndCompleted extends SetupEvent {
 }
 
 class SetupDetailsCompleted extends SetupEvent {
-  const SetupDetailsCompleted(this.id, this.color);
+  const SetupDetailsCompleted(this.id, this.color, this.hubs);
 
   final String id;
   final Color color;
+  final List<Hub> hubs;
 
   @override
-  List<Object> get props => [id, color];
+  List<Object> get props => [id, color, hubs];
 }

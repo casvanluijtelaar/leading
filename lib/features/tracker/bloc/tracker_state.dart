@@ -8,3 +8,7 @@ abstract class TrackerState extends Equatable {
 }
 
 class TrackerInitial extends TrackerState {}
+
+class TrackerProgress extends TrackerState {}
+
+class TrackerComplete extends TrackerState {}

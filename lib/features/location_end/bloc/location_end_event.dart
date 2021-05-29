@@ -7,6 +7,15 @@ abstract class LocationEndEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class LocationEndInitial extends LocationEndEvent {
+  const LocationEndInitial(this.user);
+
+  final User user;
+
+  @override
+  List<Object> get props => [user];
+}
+
 class LocationEndStarted extends LocationEndEvent {}
 
 class LocationEndCompleted extends LocationEndEvent {

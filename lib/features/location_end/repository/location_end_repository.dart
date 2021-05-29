@@ -10,9 +10,7 @@ class LocationEndRepository {
 
   Future<List<Location>> getLocations(Location currentLocation) async {
     final locations = await _database.getLocations();
-    locations
-      ..removeWhere((e) => e == currentLocation)
-      ..removeWhere((e) => e.name.contains('hub'));
+    locations..removeWhere((e) => e == currentLocation);
 
     return locations;
   }

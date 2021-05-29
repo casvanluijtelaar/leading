@@ -20,9 +20,9 @@ class AppRouter {
     tracker: (_) => const TrackerPage(),
   };
 
-  void navigateToRoute(String route) => Beamer.of(_context).beamToNamed(route);
 
-  void navigateToRouteAdvanced(
+
+  void navigateToRoute(
     String route, {
     Map<String, dynamic> data = const {},
     String popToNamed = onboarding,
@@ -32,6 +32,7 @@ class AppRouter {
         beamBackOnPop: false,
         data: data,
         popToNamed: popToNamed,
+        stacked: false,
       );
 
   void navigateBack() => _context.beamBack();

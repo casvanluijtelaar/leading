@@ -7,4 +7,13 @@ abstract class DetailsEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class DetailsInitial extends DetailsEvent {
+  const DetailsInitial(this.user);
+
+  final User user;
+
+  @override
+  List<Object> get props => [user];
+}
+
 class DetailsStarted extends DetailsEvent {}

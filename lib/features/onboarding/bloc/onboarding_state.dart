@@ -9,31 +9,8 @@ abstract class OnboardingState extends Equatable {
 
 class OnboardingLoading extends OnboardingState {}
 
-class OnboardingColor extends OnboardingState {
-  const OnboardingColor(this.color);
+class OnboardingColor extends OnboardingState {}
 
-  final Color color;
+class OnboardingAnimation extends OnboardingState {}
 
-  @override
-  List<Object?> get props => [color];
-}
-
-class OnboardingAnimation extends OnboardingState {
-  const OnboardingAnimation(this.color);
-
-  final Color color;
-
-  @override
-  List<Object?> get props => [color];
-}
-
-class OnboardingSummery extends OnboardingState {
-  const OnboardingSummery(this.color, this.start, this.end);
-
-  final Color color;
-  final String start;
-  final String end;
-
-  @override
-  List<Object?> get props => [];
-}
+class OnboardingSummery extends OnboardingState {}

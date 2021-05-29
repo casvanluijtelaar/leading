@@ -46,7 +46,7 @@ class SetupView extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
             children: [
-             const PermissionsView(),
+             const PermissionsPage(),
              const LocationStartPage(),
              const LocationEndPage(),
              const DetailsPage(),

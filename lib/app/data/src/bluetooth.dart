@@ -1,11 +1,10 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_beacon/flutter_beacon.dart';
 
-import '../contracts/bluetooth_contract.dart';
 
 class BluetoothException implements Exception {}
 
-class Bluetooth implements BluetoothContract {
+class Bluetooth {
 
   final List<Region> _regions = [
     Region(
@@ -14,7 +13,7 @@ class Bluetooth implements BluetoothContract {
     )
   ];
 
-  @override
+
   Future<bool> initialize() async {
     try {
       return flutterBeacon.initializeAndCheckScanning;
@@ -23,7 +22,7 @@ class Bluetooth implements BluetoothContract {
     }
   }
 
-  @override
+
   Future<List<Beacon>> getBeaconsAsync() async {
     try {
       return (await flutterBeacon.ranging(_regions).first).beacons;
@@ -32,7 +31,6 @@ class Bluetooth implements BluetoothContract {
     }
   }
 
-  @override
   Stream<List<Beacon>> getBeaconsStream() {
     try {
       return flutterBeacon.ranging(_regions).map((event) => event.beacons);

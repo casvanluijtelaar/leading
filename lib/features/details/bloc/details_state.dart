@@ -10,13 +10,12 @@ abstract class DetailsState extends Equatable {
 class DetailsLoading extends DetailsState {}
 
 class DetailsCompleted extends DetailsState {
-  const DetailsCompleted(this.color, this.id);
-
+  const DetailsCompleted(this.color, this.id, this.hubs);
 
   final Color color;
   final String id;
-
+  final List<Hub> hubs;
 
   @override
-  List<Object> get props => [id, color];
+  List<Object> get props => [id, color, hubs];
 }

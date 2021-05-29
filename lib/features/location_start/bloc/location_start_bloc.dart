@@ -23,8 +23,9 @@ class LocationStartBloc extends Bloc<LocationStartEvent, LocationStartState> {
         yield LocationStartLoading();
         final location = await _repository.getLocation();
 
-        if (location == null) yield LocationStartNotFound();
-        yield LocationStartFound(location!);
+        yield location == null
+            ? LocationStartNotFound()
+            : LocationStartFound(location);
       }
     } catch (e, s) {
       log(e.toString(), stackTrace: s);

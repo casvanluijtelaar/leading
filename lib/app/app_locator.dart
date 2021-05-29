@@ -10,7 +10,6 @@ import 'package:leading/features/setup/bloc/setup_bloc.dart';
 import 'package:leading/features/tracker/tracker.dart';
 import 'package:uuid/uuid.dart';
 
-import 'data/models/user.dart';
 import 'data/src/bluetooth.dart';
 import 'data/src/database.dart';
 
@@ -24,7 +23,6 @@ void setup() {
     ..registerLazySingleton(() => Bluetooth())
     ..registerLazySingleton(() => Database())
     ..registerLazySingleton(() => const Uuid())
-    ..registerLazySingleton(() => User())
 
     /// setup
     ..registerFactory(() => SetupBloc(locator()))
@@ -39,7 +37,7 @@ void setup() {
 
     /// location_end
     ..registerLazySingleton(() => LocationEndRepository(locator()))
-    ..registerFactory(() => LocationEndBloc(locator(), locator(), locator()))
+    ..registerFactory(() => LocationEndBloc(locator(), locator()))
 
     /// details
     ..registerLazySingleton(() => DetailsRepository(locator(), locator()))
@@ -50,5 +48,5 @@ void setup() {
 
     /// tracker
     ..registerLazySingleton(() => TrackerRepository(locator(), locator()))
-    ..registerFactory(() => TrackerBloc());
+    ..registerFactory(() => TrackerBloc(locator(), locator()));
 }

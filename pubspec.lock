@@ -36,6 +36,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.4"
+  blobs:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: nnbd
+      resolved-ref: "9e16b22fcda2356f73b37ca4ce36ed0904ac925d"
+      url: "https://github.com/ryanheise/flutter_blobs.git"
+    source: git
+    version: "1.2.0"
   bloc:
     dependency: "direct main"
     description:
@@ -85,13 +94,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
-  coast:
-    dependency: "direct main"
-    description:
-      name: coast
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   collection:
     dependency: transitive
     description:
@@ -214,6 +216,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_spinkit:
+    dependency: "direct main"
+    description:
+      name: flutter_spinkit
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.0"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -287,13 +296,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3"
-  loading_indicator:
-    dependency: "direct main"
-    description:
-      name: loading_indicator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.1"
   logging:
     dependency: transitive
     description:
@@ -502,6 +504,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  smooth_page_indicator:
+    dependency: "direct main"
+    description:
+      name: smooth_page_indicator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0-nullsafety.0"
   source_map_stack_trace:
     dependency: transitive
     description:
@@ -643,5 +652,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.13.0 <3.0.0"
-  flutter: ">=1.24.0-7.0"
+  dart: ">=2.13.0-0 <3.0.0"
+  flutter: ">=2.0.0"
