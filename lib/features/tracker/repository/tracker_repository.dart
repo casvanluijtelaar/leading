@@ -18,13 +18,14 @@ class TrackerRepository {
     return _database.removeUser(user);
   }
 
-  Stream<bool> reachedDestination(User user) {
+  Stream<bool> reachedDestination(User user, double distance) {
     return _bluetooth.getBeaconsStream().map((beacons) {
-      final endBeacon =
-          beacons.where((b) => b.macAddress == user.endLocation!.mac).toList();
 
-      if (endBeacon.isEmpty) return false;
-      if (endBeacon[0].distance > 3) return false;
+      final endBeacon = beacons
+            .where((b) => b.macAddress == user.endLocation!.mac)
+            .toList();
+            
+      if (endBeacon.isEmpty || endBeacon[0].distance > distance) return false;
       return true;
     });
   }

@@ -1,8 +1,9 @@
-import 'dart:ui' as ui;
+import 'dart:ui';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:leading/app/utils/consts.dart';
+import 'package:leading/app/utils/canvas_utils.dart';
 
 class AnimationIndicator extends StatefulWidget {
   AnimationIndicator({
@@ -201,16 +202,24 @@ class ShapePainter extends CustomPainter {
     final middle2 = Offset(width / 2, hallway1Top + (hallwaySize / 2));
     final end2 = Offset(width * 3 / 4, hallway1Top + (hallwaySize / 2));
 
-    final paint = Paint()
-      ..color = color
-      ..strokeWidth = 5
-      ..strokeCap = StrokeCap.round;
+    final points = [
+      ...CanvasUtils.getIntermedianPoints(start1, middle1, 5),
+      ...CanvasUtils.getIntermedianPoints(middle1, end1, 5),
+      ...CanvasUtils.getIntermedianPoints(start2, middle2, 5),
+      ...CanvasUtils.getIntermedianPoints(middle2, end2, 5),
+    ];
 
-    canvas
-      ..drawLine(start1, middle1, paint)
-      ..drawLine(middle1, end1, paint)
-      ..drawLine(start2, middle2, paint)
-      ..drawLine(middle2, end2, paint);
+    for (var i = 0; i < points.length; i++) {
+      final opacity = status == i || status == i - 1 ? 1.0 : 0.3;
+      final dotColor = color.withOpacity(opacity);
+
+      final paint = Paint()
+        ..color = dotColor
+        ..strokeWidth = 5
+        ..strokeCap = StrokeCap.round;
+
+      canvas.drawCircle(points[i], 3, paint);
+    }
   }
 
   @override

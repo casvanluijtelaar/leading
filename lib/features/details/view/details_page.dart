@@ -31,7 +31,13 @@ class DetailsView extends StatelessWidget {
           children: [
             const Flexible(
               flex: 3,
-              child: Center(child: FlutterLogo(size: 50)),
+              child: Center(
+              child: Image(
+                image: AssetImage('assets/icon/icon_dark.png'),
+                width: 200,
+                height: 200,
+              ),
+            ),
             ),
             Flexible(
               flex: 2,

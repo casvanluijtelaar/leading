@@ -62,13 +62,28 @@ class ShapePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
+
+
+
+
+
+
+
+
+
+final paint = Paint()
       ..color = color
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 5;
 
-    canvas.drawLine(Offset((size.width / 2) - 3, 0),
-        Offset((size.width / 2) + 3, size.height), paint);
+
+
+
+    canvas.drawLine(
+      Offset(size.width / 2, 0),
+      Offset(size.width / 2, size.height),
+      paint,
+    );
   }
 
   @override

@@ -10,11 +10,13 @@ class Button extends StatelessWidget {
     required this.type,
     this.succes,
     this.onPressed,
+    this.color,
   }) : super(key: key);
 
   final VoidCallback? onPressed;
   final ButtonType type;
   final String? succes;
+  final Color? color;
 
   Widget _child(BuildContext context) {
     if (type == ButtonType.error)
@@ -36,6 +38,7 @@ class Button extends StatelessWidget {
   }
 
   Color _color(BuildContext context) {
+    if (color != null) return color!;
     if (type == ButtonType.error) return Theme.of(context).errorColor;
     return Theme.of(context).primaryColor;
   }

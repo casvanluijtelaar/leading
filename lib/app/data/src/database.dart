@@ -4,7 +4,7 @@ import '../models/location.dart';
 import '../models/route.dart';
 import '../models/user.dart';
 
-// ignore_for_file: constant_identifier_names      
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: avoid_dynamic_calls
 class Database {
   final FirebaseDatabase _db = FirebaseDatabase.instance;
@@ -39,8 +39,6 @@ class Database {
     return List<Route>.from(formatted.map((f) => Route.fromJson(f)).toList());
   }
 
-
-
   Future<Location?> getLocationFromMac(String mac) async {
     final snapshot = await _db.reference().child(_LOCATIONS).child(mac).once();
     final data = snapshot.value;
@@ -56,10 +54,10 @@ class Database {
 
     if (snapshot.value == null) return [];
 
-    final formatted = List<Map<String, dynamic>>.from(snapshot.value);
-    return formatted.map((d) {
-      return User(color: d['color'], id: d['id']);
-    }).toList();
+    final formatted = List.from(snapshot.value.values);
+    return List<User>.from(formatted.map((d) {
+      return User.fromMap(d);
+    }).toList());
   }
 
   Future<void> addUser(User user) {

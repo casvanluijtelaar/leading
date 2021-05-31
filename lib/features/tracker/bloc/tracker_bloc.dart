@@ -5,28 +5,28 @@ import 'package:equatable/equatable.dart';
 import 'package:leading/app/app_router.dart';
 import 'package:leading/app/data/models/user.dart';
 import 'package:leading/features/tracker/repository/tracker_repository.dart';
+import 'package:vibration/vibration.dart';
+import 'package:flutter_beep/flutter_beep.dart';
 
 part 'tracker_event.dart';
 part 'tracker_state.dart';
 
 class TrackerBloc extends Bloc<TrackerEvent, TrackerState> {
-  TrackerBloc(this._repository, this._router) : super(TrackerProgress());
+  TrackerBloc(this._repository, this._router) : super(TrackerInitial());
 
   final TrackerRepository _repository;
   final AppRouter _router;
 
   User? user;
+  bool completed = false;
 
   @override
   Stream<TrackerState> mapEventToState(TrackerEvent event) async* {
     if (event is TrackerSetup) {
       user = event.user;
       await _repository.uploadUser(user!);
-      _repository.reachedDestination(user!).listen(onTrackingEvent);
-    }
-
-    if (event is TrackerTracking) {
       yield TrackerProgress();
+      _repository.reachedDestination(user!, 1.0).listen(onTrackingEvent);
     }
 
     if (event is TrackingCompleted) {
@@ -40,7 +40,10 @@ class TrackerBloc extends Bloc<TrackerEvent, TrackerState> {
   }
 
   void onTrackingEvent(bool reachedDestination) {
-    if (reachedDestination) return add(TrackerTracking());
-    return add(TrackingCompleted());
+    if (completed || !reachedDestination) return;
+    completed = true;
+    Vibration.vibrate(duration: 500);
+    FlutterBeep.beep();
+    add(TrackingCompleted());
   }
 }

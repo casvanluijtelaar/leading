@@ -16,26 +16,26 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'app_theme.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  App({Key? key}) : super(key: key);
+
+  final routerDelegate = BeamerRouterDelegate(
+    locationBuilder: SimpleLocationBuilder(
+      routes: locator<AppRouter>().routes,
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
-    final routerDelegate = BeamerRouterDelegate(
-      locationBuilder: SimpleLocationBuilder(
-        routes: locator<AppRouter>().routes,
-      ),
-    );
-
     return BeamerProvider(
       routerDelegate: routerDelegate,
       child: MaterialApp.router(
         localizationsDelegates: [
-                S.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: S.delegate.supportedLocales,
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
         key: locator<AppRouter>().navigatorKey,
         debugShowCheckedModeBanner: false,
         theme: locator<AppTheme>().getTheme(context),

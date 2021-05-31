@@ -7,6 +7,18 @@ import 'hub.dart';
 class User extends Equatable {
   User({this.startLocation, this.endLocation, this.id, this.color, this.hubs});
 
+  factory User.fromMap(Map data) {
+    return User(
+      color: Color.fromRGBO(
+        data['color'][0],
+        data['color'][0],
+        data['color'][0],
+        1,
+      ),
+      id: data['id'],
+    );
+  }
+
   final Location? startLocation;
   final Location? endLocation;
   final String? id;

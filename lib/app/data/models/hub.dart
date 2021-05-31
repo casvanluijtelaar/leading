@@ -17,6 +17,9 @@ class Hub extends Equatable {
   @override
   List<Object?> get props => [id, direction];
 
+  @override
+  bool get stringify => true;
+
 
   Map<String, dynamic> toMap() => {
         'id': id,

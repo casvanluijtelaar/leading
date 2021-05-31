@@ -31,6 +31,7 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
       final color = await _repository.getUniqueColor();
       final id = await _repository.getId();
       final route = await _repository.getRoute(_user);
+      print(route);
 
       yield DetailsCompleted(color, id, route);
     }

@@ -1,5 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:leading/app/utils/consts.dart';
 import 'package:leading/app/widgets/card.dart';
 import 'package:leading/features/onboarding/bloc/onboarding_bloc.dart';
 import 'package:leading/features/onboarding/widgets/dot_indicator.dart';
@@ -18,7 +22,7 @@ class OnboardingSummeryView extends StatelessWidget {
         children: [
           const Flexible(flex: 1, child: SizedBox.expand()),
           Flexible(
-            flex: 5,
+            flex: 3,
             child: BackgroundCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -28,24 +32,31 @@ class OnboardingSummeryView extends StatelessWidget {
                     'Summery',
                     style: Theme.of(context).textTheme.headline6,
                   ),
-                  ListTile(
-                    leading: Icon(Icons.location_on, color: user?.color),
-                    title: const Text('from'),
-                    subtitle: Text(user?.startLocation?.name ?? ''),
-                  ),
-                  Center(
-                    child: SizedBox(
-                      width: 50,
-                      height: 100,
-                      child: DotIndicator(
-                        color: user?.color ?? Theme.of(context).primaryColor,
+                  Column(
+                    children: [
+                      ListTile(
+                        title: const Center(child: Text('from')),
+                        subtitle: Center(
+                            child: Text(user?.startLocation?.name ?? '')),
                       ),
-                    ),
-                  ),
-                  ListTile(
-                    trailing: Icon(Icons.location_on, color: user?.color),
-                    title: const Text('to'),
-                    subtitle: Text(user?.endLocation?.name ?? ''),
+                      Padding(
+                        padding: const EdgeInsets.all(Kpadding.large),
+                        child: Center(
+                          child: Transform.rotate(
+                            angle: pi / 2,
+                            child: SpinKitThreeBounce(
+                              color: user?.color,
+                              size: 50,
+                            ),
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        title: Center(child: Text('to')),
+                        subtitle:
+                            Center(child: Text(user?.endLocation?.name ?? '')),
+                      ),
+                    ],
                   ),
                 ],
               ),
