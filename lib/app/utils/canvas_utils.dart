@@ -1,5 +1,6 @@
 import 'package:flutter/painting.dart';
 
+/// ultility class for all methods used in CustomPainter classes
 class CanvasUtils {
   /// providing a [start] and [end] coordinate, thi method will return
   /// a list of new points with length [amount] filled with points

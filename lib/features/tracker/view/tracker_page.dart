@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:leading/app/app_locator.dart';
 import 'package:leading/app/widgets/button.dart';
 import 'package:leading/app/widgets/card.dart';
+import 'package:leading/generated/l10n.dart';
 
 import '../bloc/tracker_bloc.dart';
 
@@ -48,12 +49,11 @@ class TrackerProgressView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                'Wayfinding in Progress',
+                S.current.trackerProgressTitle,
                 style: Theme.of(context).textTheme.headline6,
               ),
               Text(
-                // ignore: lines_longer_than_80_chars
-                'Follow your colour to your destination, we’ll Let you know once you get there! You can always quit if you want to.',
+                S.current.trackerProgressTitle,
                 style: Theme.of(context).textTheme.bodyText1,
                 textAlign: TextAlign.center,
               ),
@@ -65,15 +65,17 @@ class TrackerProgressView extends StatelessWidget {
                     size: 50,
                   ),
                   Text(
-                    // ignore: lines_longer_than_80_chars
-                    'To ${context.read<TrackerBloc>().user?.endLocation?.name}',
+                    S.current.trackerProgressEnd(
+                      context.read<TrackerBloc>().user?.endLocation?.name ?? '',
+                    ),
                     style: Theme.of(context).textTheme.headline6,
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
               Button(
                 type: ButtonType.succes,
-                succes: 'Quit',
+                succes: S.current.trackerProgressQuit,
                 color: context.read<TrackerBloc>().user?.color,
                 onPressed: () => context.read<TrackerBloc>().add(
                       TrackerReset(),
@@ -90,45 +92,46 @@ class TrackerCompleteView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-            body: BackgroundCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        body: BackgroundCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                S.current.trackerCompleteTitle,
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              Text(
+                S.current.trackerCompleteSubtitle,
+                style: Theme.of(context).textTheme.bodyText1,
+                textAlign: TextAlign.center,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Icon(
+                    Icons.location_on,
+                    size: 50,
+                    color: Theme.of(context).primaryColor,
+                  ),
                   Text(
-                    'We\'re here',
+                    S.current.trackerCompleteEnd(
+                        context.read<TrackerBloc>().user?.endLocation?.name ??
+                            ''),
                     style: Theme.of(context).textTheme.headline6,
-                  ),
-                  Text(
-                    // ignore: lines_longer_than_80_chars
-                    'You’ve reached your desination. your route will no longer be marked. Click finish to start over!',
-                    style: Theme.of(context).textTheme.bodyText1,
                     textAlign: TextAlign.center,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.location_on,
-                        size: 50,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      Text(
-                        // ignore: lines_longer_than_80_chars
-                        'Currently at ${context.read<TrackerBloc>().user?.endLocation?.name}',
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                    ],
-                  ),
-                  Button(
-                    type: ButtonType.succes,
-                    succes: 'Complete',
-                    onPressed: () => context.read<TrackerBloc>().add(
-                          TrackerReset(),
-                        ),
                   ),
                 ],
               ),
-            ),
-          );
+              Button(
+                type: ButtonType.succes,
+                succes: S.current.trackerCompleteQuit,
+                onPressed: () => context.read<TrackerBloc>().add(
+                      TrackerReset(),
+                    ),
+              ),
+            ],
+          ),
+        ),
+      );
 }

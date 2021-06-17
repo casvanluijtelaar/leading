@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -105,6 +104,8 @@ class ShapePainter extends CustomPainter {
     ///                         │      │
 
     /// drawing wall lines
+ 
+
     canvas
       ..drawLine(
         Offset(hallwayleft, 0),

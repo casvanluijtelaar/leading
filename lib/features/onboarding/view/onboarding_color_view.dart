@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:leading/app/widgets/card.dart';
 import 'package:leading/features/onboarding/bloc/onboarding_bloc.dart';
+import 'package:leading/generated/l10n.dart';
 
 import '../onboarding.dart';
 
@@ -23,12 +24,11 @@ class OnboardingColorView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    'Colour',
+                    S.current.onboardingColorTitle,
                     style: Theme.of(context).textTheme.headline6,
                   ),
                   Text(
-                    // ignore: lines_longer_than_80_chars
-                    'This is your colour. It will guide you through your wayfinding journey',
+                    S.current.onboardingColorSubtitle,
                     style: Theme.of(context).textTheme.bodyText1,
                     textAlign: TextAlign.center,
                   ),
@@ -36,7 +36,7 @@ class OnboardingColorView extends StatelessWidget {
                     size: 200,
                     styles: BlobStyles(
                       color: context.read<OnboardingBloc>().user?.color ??
-                        Theme.of(context).primaryColor,
+                          Theme.of(context).primaryColor,
                       fillType: BlobFillType.fill,
                     ),
                   ),

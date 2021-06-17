@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:leading/app/app_locator.dart';
-import 'package:leading/app/data/models/location.dart';
-import 'package:leading/app/utils/consts.dart';
 import 'package:leading/app/widgets/button.dart';
 import 'package:leading/app/widgets/card.dart';
 
 import 'package:leading/features/setup/bloc/setup_bloc.dart';
+import 'package:leading/generated/l10n.dart';
 
 import '../bloc/location_start_bloc.dart';
 
@@ -33,12 +32,12 @@ class LocationStartView extends StatelessWidget {
             const Flexible(
               flex: 3,
               child: Center(
-              child: Image(
-                image: AssetImage('assets/icon/icon_dark.png'),
-                width: 200,
-                height: 200,
+                child: Image(
+                  image: AssetImage('assets/icon/icon_dark.png'),
+                  width: 200,
+                  height: 200,
+                ),
               ),
-            ),
             ),
             Flexible(
               flex: 2,
@@ -55,21 +54,18 @@ class LocationStartView extends StatelessWidget {
                       builder: (context, state) {
                         if (state is LocationStartNotFound)
                           return Text(
-                            // ignore: lines_longer_than_80_chars
-                            'We couldn’t establish your current location. Are you in the right place? ',
+                            S.current.locationStartError,
                             style: Theme.of(context).textTheme.bodyText1,
                             textAlign: TextAlign.center,
                           );
                         if (state is LocationStartFound)
                           return Text(
-                            // ignore: lines_longer_than_80_chars
-                            'I see that you’re currently at ${state.location.name} let’s see where you want to go',
+                            S.current.locationStartSucces(state.location.name),
                             style: Theme.of(context).textTheme.bodyText1,
                             textAlign: TextAlign.center,
                           );
                         return Text(
-                          // ignore: lines_longer_than_80_chars
-                          'Looking for your location',
+                          S.current.locationStartLoading,
                           style: Theme.of(context).textTheme.bodyText1,
                           textAlign: TextAlign.center,
                         );
@@ -85,14 +81,24 @@ class LocationStartView extends StatelessWidget {
                                 .add(LocationStartEvent.started),
                           );
                         if (state is LocationStartFound)
-                          return Button(
-                            type: ButtonType.succes,
-                            onPressed: () => context.read<SetupBloc>().add(
-                                SetupLocationStartCompleted(state.location)),
-                          );
-                        return  Button(type: ButtonType.loading, onPressed: () {
-                          
-                        },);
+                          return Column(children: [
+                            Button(
+                              type: ButtonType.succes,
+                              onPressed: () => context.read<SetupBloc>().add(
+                                  SetupLocationStartCompleted(state.location)),
+                            ),
+                            TextButton(
+                              onPressed: () => context
+                                  .read<LocationStartBloc>()
+                                  .add(LocationStartEvent.started),
+                              child: Text(S.current.buttonRetry),
+                            )
+                          ]);
+
+                        return Button(
+                          type: ButtonType.loading,
+                          onPressed: () {},
+                        );
                       },
                     ),
                   ],

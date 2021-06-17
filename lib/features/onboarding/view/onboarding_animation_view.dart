@@ -4,6 +4,7 @@ import 'package:leading/app/utils/consts.dart';
 import 'package:leading/app/widgets/card.dart';
 import 'package:leading/features/onboarding/bloc/onboarding_bloc.dart';
 import 'package:leading/features/onboarding/widgets/animation_indicator.dart';
+import 'package:leading/generated/l10n.dart';
 
 import '../onboarding.dart';
 
@@ -21,12 +22,11 @@ class OnboardingAnimationView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                'Animation',
+                S.current.onboardingAnimationTitle,
                 style: Theme.of(context).textTheme.headline6,
               ),
               Text(
-                // ignore: lines_longer_than_80_chars
-                'Your wayfinding route will be displayed by LED animations in your colour, they will guide you to your destination.',
+                S.current.onboardingAnimationSubtitle,
                 style: Theme.of(context).textTheme.bodyText1,
                 textAlign: TextAlign.center,
               ),

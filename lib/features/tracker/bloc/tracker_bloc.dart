@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:leading/app/app_router.dart';
 import 'package:leading/app/data/models/user.dart';
+import 'package:leading/app/utils/consts.dart';
 import 'package:leading/features/tracker/repository/tracker_repository.dart';
 import 'package:vibration/vibration.dart';
 import 'package:flutter_beep/flutter_beep.dart';
@@ -26,10 +27,13 @@ class TrackerBloc extends Bloc<TrackerEvent, TrackerState> {
       user = event.user;
       await _repository.uploadUser(user!);
       yield TrackerProgress();
-      _repository.reachedDestination(user!, 1.0).listen(onTrackingEvent);
+      _repository
+          .reachedDestination(user!, Kdistance.endDistance)
+          .listen(onTrackingEvent);
     }
 
     if (event is TrackingCompleted) {
+      await _repository.removeUser(user!);
       yield TrackerComplete();
     }
 

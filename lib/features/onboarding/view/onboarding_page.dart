@@ -1,6 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:leading/generated/l10n.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:leading/app/app_locator.dart';
 import 'package:leading/features/onboarding/view/onboarding_animation_view.dart';
@@ -58,7 +59,9 @@ class OnboardingView extends StatelessWidget {
                       context.read<OnboardingBloc>().add(OnboardingBack()),
                   child: BlocBuilder<OnboardingBloc, OnboardingState>(
                     builder: (context, state) => Text(
-                      state is OnboardingColor ? 'Cancel' : 'Back',
+                      state is OnboardingColor
+                          ? S.current.onboardingCancel
+                          : S.current.onboardingBack,
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                   ),
@@ -84,7 +87,9 @@ class OnboardingView extends StatelessWidget {
                       ),
                   child: BlocBuilder<OnboardingBloc, OnboardingState>(
                     builder: (context, state) => Text(
-                      state is OnboardingSummery ? 'Start' : 'Next',
+                      state is OnboardingSummery
+                          ? S.current.onboardingStart
+                          : S.current.onboardingNext,
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                   ),

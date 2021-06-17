@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:leading/app/utils/consts.dart';
+import 'package:leading/generated/l10n.dart';
 
 enum ButtonType { succes, error, loading }
 
@@ -21,13 +22,13 @@ class Button extends StatelessWidget {
   Widget _child(BuildContext context) {
     if (type == ButtonType.error)
       return Text(
-        'Retry',
+        S.current.buttonRetry,
         style: Theme.of(context).textTheme.button,
       );
 
     if (type == ButtonType.succes)
       return Text(
-        succes ?? 'Continue',
+        succes ?? S.current.buttonContinue,
         style: Theme.of(context).textTheme.button,
       );
 

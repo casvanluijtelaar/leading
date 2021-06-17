@@ -35,16 +35,17 @@ class DetailsRepository {
     final routes = await _database.getRoutes();
 
     for (final route in routes) {
-      if (_isCorrectRoute(user, route)) {
-        return route.hubs;
-      } else if (_isCorrectRouteInverted(user, route)) {
+
+      if (_isCorrectRoute(user, route)) return route.hubs;
+     
+      if (_isCorrectRouteInverted(user, route)) 
         return route.hubs.reversed
             .map((h) => Hub(
                   id: h.id,
                   direction: h.direction.reversed.toList(),
                 ))
             .toList();
-      }
+      
     }
     return [];
   }

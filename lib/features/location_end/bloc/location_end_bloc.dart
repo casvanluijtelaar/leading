@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:leading/app/app_locator.dart';
-import 'package:leading/app/app_router.dart';
 import 'package:leading/app/data/models/location.dart';
 import 'package:leading/app/data/models/user.dart';
 
@@ -13,10 +11,9 @@ part 'location_end_event.dart';
 part 'location_end_state.dart';
 
 class LocationEndBloc extends Bloc<LocationEndEvent, LocationEndState> {
-  LocationEndBloc(this._repository, this._router) : super(LocationEndLoading());
+  LocationEndBloc(this._repository) : super(LocationEndLoading());
 
   final LocationEndRepository _repository;
-  final AppRouter _router;
 
   late User _user;
 

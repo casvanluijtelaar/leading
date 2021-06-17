@@ -6,7 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:leading/app/utils/consts.dart';
 import 'package:leading/app/widgets/card.dart';
 import 'package:leading/features/onboarding/bloc/onboarding_bloc.dart';
-import 'package:leading/features/onboarding/widgets/dot_indicator.dart';
+import 'package:leading/generated/l10n.dart';
 
 import '../onboarding.dart';
 
@@ -29,13 +29,15 @@ class OnboardingSummeryView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    'Summery',
+                    S.current.onboardingSummeryTitle,
                     style: Theme.of(context).textTheme.headline6,
                   ),
                   Column(
                     children: [
                       ListTile(
-                        title: const Center(child: Text('from')),
+                        title: Center(
+                          child: Text(S.current.onboardingSummeryStart),
+                        ),
                         subtitle: Center(
                             child: Text(user?.startLocation?.name ?? '')),
                       ),
@@ -52,7 +54,9 @@ class OnboardingSummeryView extends StatelessWidget {
                         ),
                       ),
                       ListTile(
-                        title: Center(child: Text('to')),
+                        title: Center(
+                          child: Text(S.current.onboardingSummeryEnd),
+                        ),
                         subtitle:
                             Center(child: Text(user?.endLocation?.name ?? '')),
                       ),

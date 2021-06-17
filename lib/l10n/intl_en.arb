@@ -1,1 +1,45 @@
-{}
+{
+    "buttonContinue": "Continue",
+    "buttonRetry": "Retry",
+
+    "permissionsTitle": "Welcome",
+    "permissionsSubtitle": "Leading requires Bluetooth and Location permissions. Make sure both are enabled to continue",
+   
+    "locationStartTitle": "Location",
+    "locationStartError": "We couldn’t establish your current location. Are you in the right place?",
+    "locationStartLoading": "Looking for your location",
+    "locationStartSucces": "I see that you’re currently at {name} let’s see where you want to go",
+   
+    "locationEndTitle": "Destination",
+    "locationEndError": "We couldn’t find any suitable destinations, check your internet connectivity",
+    "locationEndSucces": "Where is It you'd like to go?",
+   
+    "detailsTitle": "Finishing up",
+    "detailsSucces": "We've calculated the best route and finished up some background tasks",
+    "detailsLoading": "Calculating best route",
+   
+    "onboardingBack": "Back",
+    "onboardingCancel": "Cancel",
+    "onboardingStart": "Start",
+    "onboardingNext": "Next",
+   
+    "onboardingColorTitle": "Colour",
+    "onboardingColorSubtitle": "This is your colour. It will guide you through your wayfinding journey",
+   
+    "onboardingAnimationTitle": "Animation",
+    "onboardingAnimationSubtitle": "Your wayfinding route will be displayed by LED animations in your colour, they will guide you to your destination.",
+   
+    "onboardingSummeryTitle": "Summery",
+    "onboardingSummeryStart": "from",
+    "onboardingSummeryEnd": "to",
+   
+    "trackerProgressTitle": "Wayfinding in Progress",
+    "trackerProgressSubtitle": "Follow your colour to your destination, we’ll Let you know once you get there! You can always quit if you want to.",
+    "trackerProgressEnd": "To {location}",
+    "trackerProgressQuit": "Quit",
+
+    "trackerCompleteTitle": "We're here",
+    "trackerCompleteSubtitle": "You’ve reached your destination. your route will no longer be marked. Click Complete to start over!",
+    "trackerCompleteEnd": "Currently at {location}",
+    "trackerCompleteQuit": "Complete"
+}

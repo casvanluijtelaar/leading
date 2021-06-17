@@ -207,9 +207,11 @@ packages:
   flutter_beacon:
     dependency: "direct main"
     description:
-      name: flutter_beacon
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: "65237b8a3d35ffb6a483e349ad748c3f99098327"
+      url: "https://github.com/alann-maulana/flutter_beacon.git"
+    source: git
     version: "0.5.0"
   flutter_beep:
     dependency: "direct main"

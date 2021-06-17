@@ -1,0 +1,45 @@
+{
+    "buttonContinue": "Verder",
+    "buttonRetry": "Opnieuw",
+
+    "permissionsTitle": "Welkom",
+    "permissionsSubtitle": "Leading maakt gebruik van bluetooth en wifi, zorg dat beide aanstaan",
+   
+    "locationStartTitle": "Locatie",
+    "locationStartError": "We kunnen je locatie niet vinden, ben je op de juiste plaats?",
+    "locationStartLoading": "Zoeken naar je locatie",
+    "locationStartSucces": "We zien dat je momenteel in {name} bent, eens kijken waar je naartoe wilt",
+   
+    "locationEndTitle": "bestemming",
+    "locationEndError": "We konden geen bestemmingen vinden, controlleer je internet verbinding.",
+    "locationEndSucces": "Waar wil je naartoe?",
+   
+    "detailsTitle": "Aan het afronden",
+    "detailsSucces": "We hebben de beste route berekend en wat achtergrond werk afgerond",
+    "detailsLoading": "Berekenen van de beste route",
+   
+    "onboardingBack": "terug",
+    "onboardingCancel": "Annuleer",
+    "onboardingStart": "Start",
+    "onboardingNext": "Volgende",
+   
+    "onboardingColorTitle": "Kleur",
+    "onboardingColorSubtitle": "Dit is jouw kleur, het zal je door jouw wayfinding route leiden",
+   
+    "onboardingAnimationTitle": "Animatie",
+    "onboardingAnimationSubtitle": "Jouw wayfinding route zal via LED animaties in jouw kleur weergeven worden, ze zullen ze naar je bestemming leiden",
+   
+    "onboardingSummeryTitle": "Samenvatting",
+    "onboardingSummeryStart": "van",
+    "onboardingSummeryEnd": "naar",
+   
+    "trackerProgressTitle": "Wayfinding bezig",
+    "trackerProgressSubtitle": "Volg jouw kleur naar je bestemming, we zullen je laten weten wanneer je er bent. Je kan altijd halverwege stoppen!",
+    "trackerProgressEnd": "Naar {location}",
+    "trackerProgressQuit": "Stoppen",
+
+    "trackerCompleteTitle": "We zijn er",
+    "trackerCompleteSubtitle": "Je hebt je bestemming bereikt. De route wordt niet meer gemarkeerd. Druk op afronden om opnieuw te beginnen",
+    "trackerCompleteEnd": "Momenteel bij {location}",
+    "trackerCompleteQuit": "Afronden"
+}

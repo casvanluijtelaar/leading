@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:leading/app/app_locator.dart';
-import 'package:leading/app/data/models/location.dart';
+
 import 'package:leading/app/widgets/button.dart';
 import 'package:leading/app/widgets/card.dart';
 import 'package:leading/features/location_end/bloc/location_end_bloc.dart';
-import 'package:leading/features/location_start/bloc/location_start_bloc.dart';
 import 'package:leading/features/setup/bloc/setup_bloc.dart';
+import 'package:leading/generated/l10n.dart';
 
 class LocationEndPage extends StatelessWidget {
   const LocationEndPage({Key? key}) : super(key: key);
@@ -33,12 +33,12 @@ class LocationEndView extends StatelessWidget {
             const Flexible(
               flex: 2,
               child: Center(
-              child: Image(
-                image: AssetImage('assets/icon/icon_dark.png'),
-                width: 200,
-                height: 200,
+                child: Image(
+                  image: AssetImage('assets/icon/icon_dark.png'),
+                  width: 200,
+                  height: 200,
+                ),
               ),
-            ),
             ),
             Flexible(
               flex: 3,
@@ -48,7 +48,7 @@ class LocationEndView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      'Destination',
+                      S.current.locationEndTitle,
                       style: Theme.of(context).textTheme.headline6,
                     ),
                     BlocBuilder<LocationEndBloc, LocationEndState>(
@@ -56,15 +56,13 @@ class LocationEndView extends StatelessWidget {
                       builder: (context, state) {
                         if (state is LocationEndNotFound)
                           return Text(
-                            // ignore: lines_longer_than_80_chars
-                            'We couldn’t find any suitable destinations, check your internet connectivity.',
+                            S.current.locationEndError,
                             style: Theme.of(context).textTheme.bodyText1,
                             textAlign: TextAlign.center,
                           );
 
                         return Text(
-                          // ignore: lines_longer_than_80_chars
-                          'Where is It you\'d like to go?',
+                          S.current.locationEndSucces,
                           style: Theme.of(context).textTheme.bodyText1,
                           textAlign: TextAlign.center,
                         );
@@ -84,10 +82,10 @@ class LocationEndView extends StatelessWidget {
                                   color: Theme.of(context).primaryColor,
                                 ),
                                 onTap: () => context
-                                  .read<SetupBloc>()
-                                  .add(SetupLocationEndCompleted(
-                                    state.locations[index],
-                                  )),
+                                    .read<SetupBloc>()
+                                    .add(SetupLocationEndCompleted(
+                                      state.locations[index],
+                                    )),
                               ),
                             ),
                           );

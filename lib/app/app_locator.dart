@@ -37,7 +37,7 @@ void setup() {
 
     /// location_end
     ..registerLazySingleton(() => LocationEndRepository(locator()))
-    ..registerFactory(() => LocationEndBloc(locator(), locator()))
+    ..registerFactory(() => LocationEndBloc(locator()))
 
     /// details
     ..registerLazySingleton(() => DetailsRepository(locator(), locator()))

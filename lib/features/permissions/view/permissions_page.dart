@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:leading/app/app_locator.dart';
-import 'package:leading/app/utils/consts.dart';
 import 'package:leading/app/widgets/button.dart';
 import 'package:leading/app/widgets/card.dart';
 import 'package:leading/features/setup/bloc/setup_bloc.dart';
+import 'package:leading/generated/l10n.dart';
 
 import '../bloc/permissions_bloc.dart';
 
@@ -46,11 +46,11 @@ class PermissionsView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    'Permissions',
+                    S.current.permissionsTitle,
                     style: Theme.of(context).textTheme.headline6,
                   ),
                   Text(
-                    '''Leading requires Bluetooth and Location permissions. Make sure both are enabled to continue ''',
+                    S.current.permissionsSubtitle,
                     style: Theme.of(context).textTheme.bodyText1,
                     textAlign: TextAlign.center,
                   ),

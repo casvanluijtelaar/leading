@@ -23,6 +23,7 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
       yield DetailsLoading();
       _user = event.user;
       add(DetailsStarted());
+      print(_user);
     }
 
     if (event is DetailsStarted) {

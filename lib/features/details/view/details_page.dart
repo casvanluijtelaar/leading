@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:leading/app/app_locator.dart';
-import 'package:leading/app/data/models/hub.dart';
 import 'package:leading/app/widgets/button.dart';
 import 'package:leading/app/widgets/card.dart';
 import 'package:leading/features/details/bloc/details_bloc.dart';
 import 'package:leading/features/setup/bloc/setup_bloc.dart';
+import 'package:leading/generated/l10n.dart';
 
 class DetailsPage extends StatelessWidget {
   const DetailsPage({Key? key}) : super(key: key);
@@ -47,7 +47,7 @@ class DetailsView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      'Finishing up',
+                      S.current.detailsTitle,
                       style: Theme.of(context).textTheme.headline6,
                     ),
                     BlocBuilder<DetailsBloc, DetailsState>(
@@ -55,13 +55,12 @@ class DetailsView extends StatelessWidget {
                       builder: (context, state) {
                         if (state is DetailsCompleted)
                           return Text(
-                            // ignore: lines_longer_than_80_chars
-                            'We\'ve calculated the best route and finished up some background tasks',
+                            S.current.detailsSucces,
                             style: Theme.of(context).textTheme.bodyText1,
                             textAlign: TextAlign.center,
                           );
                         return Text(
-                          'Calculating best route',
+                          S.current.detailsLoading,
                           style: Theme.of(context).textTheme.bodyText1,
                           textAlign: TextAlign.center,
                         );
